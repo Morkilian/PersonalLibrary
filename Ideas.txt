@@ -1,0 +1,12 @@
+Layers and Tags
+-Have something to auto detect and make intellisense of the different layers and tags
+-Custom scriptable object for the layers and tags references
+-Custom layers where it's a combination of two or more (ground + blocker => grocker, or something)
+
+Inputs:
+-Some sort of input manager
+-Take into account different gamepads (ps4, xbox)
+-Check the new input system and see if we can template that
+
+PoolingSystem from Calvin
+-Then the sound system with poolable sounds among other things

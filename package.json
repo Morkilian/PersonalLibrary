@@ -1,0 +1,13 @@
+{
+    "name": "com.morkilian.helper",
+    "displayName": "Morkilian Helper",
+    "version": "0.0.0-preview.1",
+    "license": "UNLICENSED",
+    "author": {
+      "name": "Kilian Malotiaux Soler",
+      "email": "kilianmalotiaux@gmail.com",
+      "url": "https://github.com/Morkilian"
+    },
+    "unity": "2019.1",
+    "description": "This package contains a set of scripts, textures and what not by Kilian Malotiaux Soler, for easier development in the future."
+  }
