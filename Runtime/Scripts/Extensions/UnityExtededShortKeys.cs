@@ -3,8 +3,10 @@ namespace Morkilian.Helper
     using UnityEngine;
     using UnityEditor;
     using System.Collections;
-    using UnityEditor.SceneManagement;
-    using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+    using UnityEditor.SceneManagement; 
+#endif
+
 
     public class UnityExtededShortKeys : ScriptableObject
     {

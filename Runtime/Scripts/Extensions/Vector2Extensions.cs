@@ -22,7 +22,7 @@ namespace Morkilian.Helper
         /// <param name="clamp">Wether or not to clamp the value inside the vector members.</param>        
         public static float Lerp(this Vector2 v, float ratio, bool clamp = true)
         {
-
+            
             return clamp ?
                 Mathf.Lerp(v.x, v.y, ratio) :
                 Mathf.LerpUnclamped(v.x, v.y, ratio);
