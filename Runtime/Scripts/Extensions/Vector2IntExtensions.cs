@@ -23,7 +23,7 @@ namespace Morkilian.Helper
                     toReturn = Mathf.CeilToInt(temp);
                     break;
                 default:
-                    Logger.DebugError("Tried to use a different interpolation mode.");
+                    //Logger.DebugError("Tried to use a different interpolation mode.");
                     return -1;                    
             }
             if (clamp)
@@ -44,6 +44,11 @@ namespace Morkilian.Helper
             if (smaller == v.y) toReturn = 1 - toReturn;
             return toReturn;
         
+        }
+
+        public static int Random(this Vector2Int v)
+        {
+            return UnityEngine.Random.Range(v.x, v.y);
         }
     }
 

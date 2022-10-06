@@ -60,7 +60,11 @@ namespace Morkilian.Helper
                 return (value >= v.x && value <= v.y);
             else return value <= v.x && value >= v.y;
         }
-
+        /// <summary>
+        /// Absolute distance from X to Y
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         public static float Length(this Vector2 v)
         {
             return Mathf.Abs(v.y - v.x);
