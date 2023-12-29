@@ -10,6 +10,7 @@ namespace Morkilian.Helper
     /// </summary>
     public class SpriteRendererGroupFade : MonoBehaviour
     {
+#if TMP
         [System.Serializable]
         protected class TMProColors
         {
@@ -23,7 +24,8 @@ namespace Morkilian.Helper
                 OutlineColor = outline;
                 UnderlayColor = underlay;
             }
-        }
+        } 
+#endif
         [SerializeField] protected float timeFade = 0.5f;
         [SerializeField] protected bool startHidden = false;
         [HelpBox("This material [M_SpriteUnlit] is needed for the script to work. It will be applied to every Sprite Renderer without a material. Sprite Renderers with a Material should have a property named _Alpha in order to work." +
@@ -41,10 +43,15 @@ namespace Morkilian.Helper
                 return spriteMaterials;
             }
         }
-        protected TMPro.TextMeshPro[] tmproTexts;
+#if TMP
+        protected TMPro.TextMeshPro[] tmproTexts; 
+#endif
         protected MeshRenderer[] tmproRenderers;
         protected Material[] tmproMaterials;
-        protected TMProColors[] tmproColors;
+#if TMP
+
+        protected TMProColors[] tmproColors; 
+#endif
         protected Material[] lineMaterials;
         private bool alreadyHidden = false;
         private float currentAlpha = -1;
@@ -65,10 +72,12 @@ namespace Morkilian.Helper
             {
                 tmproRenderers[i].material = tmproMaterials[i]; //Need to reassign materials because tmpro checks and reassigns them
 
-                tmproMaterials[i].SetColor("_FaceColor", tmproColors[i].BaseColor);
-                tmproMaterials[i].SetColor("_OutlineColor", tmproColors[i].OutlineColor);
-                tmproMaterials[i].SetColor("_UnderlayColor", tmproColors[i].UnderlayColor);
-            }
+#if TMP
+                    tmproMaterials[i].SetColor("_FaceColor", tmproColors[i].BaseColor);
+                    tmproMaterials[i].SetColor("_OutlineColor", tmproColors[i].OutlineColor);
+                    tmproMaterials[i].SetColor("_UnderlayColor", tmproColors[i].UnderlayColor); 
+#endif
+                }
         }
         public void ManualStart()
         {
@@ -97,13 +106,17 @@ namespace Morkilian.Helper
 
             tmproTexts = GetComponentsInChildren<TMPro.TextMeshPro>();
             tmproMaterials = new Material[tmproTexts.Length];
-            tmproColors = new TMProColors[tmproTexts.Length];
+#if TMP
+            tmproColors = new TMProColors[tmproTexts.Length]; 
+#endif
             tmproRenderers = new MeshRenderer[tmproTexts.Length];
             for (int i = 0; i < tmproTexts.Length; i++)
             {
                 tmproRenderers[i] = tmproTexts[i].GetComponent<MeshRenderer>();
                 Material sharedMat = tmproRenderers[i].material;
-                tmproColors[i] = new TMProColors(sharedMat.GetColor("_FaceColor"), sharedMat.GetColor("_OutlineColor"), sharedMat.GetColor("_UnderlayColor"));
+#if TMP
+                tmproColors[i] = new TMProColors(sharedMat.GetColor("_FaceColor"), sharedMat.GetColor("_OutlineColor"), sharedMat.GetColor("_UnderlayColor")); 
+#endif
                 tmproMaterials[i] = sharedMat;
                 tmproRenderers[i].material = tmproMaterials[i];
             }
@@ -125,15 +138,19 @@ namespace Morkilian.Helper
             }
             for (int i = 0; i < tmproMaterials.Length; i++)
             {
+#if TMP
                 tmproColors[i].BaseColor.a = currentAlpha;
                 tmproColors[i].OutlineColor.a = currentAlpha;
-                tmproColors[i].UnderlayColor.a = currentAlpha;
+                tmproColors[i].UnderlayColor.a = currentAlpha; 
+#endif
 
                 tmproRenderers[i].material = tmproMaterials[i]; //Need to reassign materials because tmpro checks and reassigns them
 
+#if TMP
                 tmproMaterials[i].SetColor("_FaceColor", tmproColors[i].BaseColor);
                 tmproMaterials[i].SetColor("_OutlineColor", tmproColors[i].OutlineColor);
-                tmproMaterials[i].SetColor("_UnderlayColor", tmproColors[i].UnderlayColor);
+                tmproMaterials[i].SetColor("_UnderlayColor", tmproColors[i].UnderlayColor); 
+#endif
             }
             for (int i = 0; i < lineMaterials.Length; i++)
             {
