@@ -1,4 +1,4 @@
-namespace Morkilian.Helper
+namespace Morkilian
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -60,7 +60,11 @@ namespace Morkilian.Helper
                 return (value >= v.x && value <= v.y);
             else return value <= v.x && value >= v.y;
         }
-
+        /// <summary>
+        /// Absolute distance from X to Y
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         public static float Length(this Vector2 v)
         {
             return Mathf.Abs(v.y - v.x);
@@ -85,7 +89,20 @@ namespace Morkilian.Helper
                 (float)(v.x * Mathf.Sin(degrees) + v.y * Mathf.Cos(degrees))
             ) + pivot;
         }
-
+        /// <summary>
+        /// Lerps between two Vector2, but clamps the returning position within the given distance from the starting point.
+        /// </summary>
+        /// <example> From (0,0), to (0,5), with t=0.5f, and maxDistance as 1.5 would return (0,1.5f), but if maxDistance was at 3, then it'd return (0,2.5f)
+        /// </example>
+        public static Vector2 LerpSpeedClamped(Vector2 start, Vector2 end, float t, float maxDistance)
+        {
+            float sqrDist = maxDistance * maxDistance;
+            Vector2 lerped = Vector2.Lerp(start, end, t);
+            Vector2 delta = lerped - start;
+            if (delta.sqrMagnitude > sqrDist)
+                return start + Vector2.ClampMagnitude(delta, maxDistance);
+            return lerped;
+        }
     }
 
 }

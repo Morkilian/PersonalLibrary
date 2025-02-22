@@ -55,6 +55,42 @@ namespace Morkilian.Helper
             return (T)(object)intValue.Value;
         }
 
+        /// <summary>
+        /// Selects a random enum value flag that's turned on. Returns the 0 value by default.
+        /// </summary>        
+        public static T SelectRandom<T>(this Enum currentValue) where T : struct, IConvertible
+        {
+            System.Random rang = new System.Random();
+            bool foundRandom = false;
+            int safeCount = 0;
+            int currentValueInt = (int)(object)currentValue;
+            T selected = default;
+            while (foundRandom == false && safeCount++ < 50)
+            {
+                T[] allValues = (T[])Enum.GetValues(typeof(T));
+                selected = allValues[rang.Next(allValues.Length)];
+                int selectedInt = (int)(object)selected;
+                if ((currentValueInt & selectedInt) == selectedInt)
+                {
+                    foundRandom = true;
+                    break;
+                }
+            }
+            if (foundRandom == false)
+            {
+                Logger.LogError("Couldn't find a suitable random enum value! Returning default.", eLoggerTypes.Extensions);
+                return (T)(object)0;
+            }
+            else return selected;
+        }
+
+        public static bool ContainsFlag<T>(this Enum currentValue, T flag) where T : struct, IConvertible
+        {
+            int? intValue = Convert.ToInt32(currentValue);
+            int? flagValue = Convert.ToInt32(flag);
+            return (intValue & flagValue) == flagValue;
+        }
+
     }
 
 }

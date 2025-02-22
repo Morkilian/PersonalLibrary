@@ -10,5 +10,9 @@ namespace Morkilian.Helper
         {
             return value * 0.01f;
         }
+        public static int RandomMirror(this int i)
+        {
+            return Random.Range(-i, i + 1);
+        }
     }
 }
