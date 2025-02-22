@@ -46,11 +46,13 @@ namespace Morkilian
                     if(_instance == null)
                     {
                         MorkilianSettings settings = new MorkilianSettings();
+                        if (AssetDatabase.IsValidFolder("Assets/AssetsSettings") == false)
+                            AssetDatabase.CreateFolder("Assets", "AssetsSettings");
                         AssetDatabase.CreateAsset(settings, path: "Assets/AssetsSettings/MorkilianSettings.asset");
                         _instance = settings;
                         AssetDatabase.SaveAssets();
                     }
-                    #endif
+#endif
                 }
                 return _instance;
             }

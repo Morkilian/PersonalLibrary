@@ -45,10 +45,9 @@ namespace Morkilian.Helper
         }
 #if TMP
         protected TMPro.TextMeshPro[] tmproTexts; 
-#endif
+
         protected MeshRenderer[] tmproRenderers;
         protected Material[] tmproMaterials;
-#if TMP
 
         protected TMProColors[] tmproColors; 
 #endif
@@ -67,17 +66,17 @@ namespace Morkilian.Helper
         }
         private void Update()
         {
+#if TMP
             if(currentAlpha!=-1)
             for (int i = 0; i < tmproMaterials.Length; i++)
             {
                 tmproRenderers[i].material = tmproMaterials[i]; //Need to reassign materials because tmpro checks and reassigns them
 
-#if TMP
                     tmproMaterials[i].SetColor("_FaceColor", tmproColors[i].BaseColor);
                     tmproMaterials[i].SetColor("_OutlineColor", tmproColors[i].OutlineColor);
                     tmproMaterials[i].SetColor("_UnderlayColor", tmproColors[i].UnderlayColor); 
-#endif
                 }
+#endif
         }
         public void ManualStart()
         {
@@ -104,22 +103,22 @@ namespace Morkilian.Helper
                     lineMaterials[i] = new Material(materialToApplyToSpriteRenderers); 
             }
 
+#if TMP
             tmproTexts = GetComponentsInChildren<TMPro.TextMeshPro>();
             tmproMaterials = new Material[tmproTexts.Length];
-#if TMP
             tmproColors = new TMProColors[tmproTexts.Length]; 
-#endif
+
             tmproRenderers = new MeshRenderer[tmproTexts.Length];
             for (int i = 0; i < tmproTexts.Length; i++)
             {
                 tmproRenderers[i] = tmproTexts[i].GetComponent<MeshRenderer>();
                 Material sharedMat = tmproRenderers[i].material;
-#if TMP
+
                 tmproColors[i] = new TMProColors(sharedMat.GetColor("_FaceColor"), sharedMat.GetColor("_OutlineColor"), sharedMat.GetColor("_UnderlayColor")); 
-#endif
                 tmproMaterials[i] = sharedMat;
                 tmproRenderers[i].material = tmproMaterials[i];
             }
+#endif
 
 
             if (startHidden && alreadyHidden == false)
@@ -136,22 +135,20 @@ namespace Morkilian.Helper
             {
                 spriteMaterials[i].SetFloat("_Alpha", currentAlpha);
             }
+#if TMP
             for (int i = 0; i < tmproMaterials.Length; i++)
             {
-#if TMP
                 tmproColors[i].BaseColor.a = currentAlpha;
                 tmproColors[i].OutlineColor.a = currentAlpha;
                 tmproColors[i].UnderlayColor.a = currentAlpha; 
-#endif
 
                 tmproRenderers[i].material = tmproMaterials[i]; //Need to reassign materials because tmpro checks and reassigns them
 
-#if TMP
                 tmproMaterials[i].SetColor("_FaceColor", tmproColors[i].BaseColor);
                 tmproMaterials[i].SetColor("_OutlineColor", tmproColors[i].OutlineColor);
                 tmproMaterials[i].SetColor("_UnderlayColor", tmproColors[i].UnderlayColor); 
-#endif
             }
+#endif
             for (int i = 0; i < lineMaterials.Length; i++)
             {
                 lineMaterials[i].SetFloat("_Alpha", currentAlpha);
@@ -169,14 +166,6 @@ namespace Morkilian.Helper
         {
             float elapsedTime = 0;
 
-            //float[] baseAlphasSprites = new float[spriteMaterials.Length];
-            //for (int i = 0; i < spriteMaterials.Length; i++)
-            //    baseAlphasSprites[i] = spriteMaterials[i].GetFloat("_Alpha");
-
-            //float[] baseAlphasTexts = new float[tmproMaterials.Length];
-            //for (int i = 0; i < tmproMaterials.Length; i++)
-            //    baseAlphasTexts[i] = tmproMaterials[i].GetColor("_FaceColor").a;
-
             while (elapsedTime < timeFade)
             {
                 yield return null;
@@ -184,16 +173,7 @@ namespace Morkilian.Helper
                 float progress = Mathf.Clamp01(elapsedTime / timeFade);
                 if (fadeIn == false) progress = 1 - progress;
                 SetAlpha(progress);
-                //for (int i = 0; i < spriteMaterials.Length; i++)
-                //{
-                //    tempColorsSprites[i].a = Mathf.Lerp(baseAlphasSprites[i], fadeIn ? startingColorsSprites[i].a : 0, progress);
-                //    sprites[i].color = tempColorsSprites[i];
-                //}
-                //for (int i = 0; i < _textsLength; i++)
-                //{
-                //    tempColorsTexts[i].a = Mathf.Lerp(baseAlphasTexts[i], fadeIn ? startingColorsTexts[i].a : 0, progress);
-                //    texts[i].color = tempColorsTexts[i];
-                //}
+
             }
             todoAfterFade?.Invoke();
         }        
