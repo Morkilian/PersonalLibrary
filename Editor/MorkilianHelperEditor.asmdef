@@ -1,7 +1,9 @@
 {
     "name": "MorkilianHelperEditor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:996220d53229c5e4c899a78ef282b238"
+    ],
     "includePlatforms": [
         "Editor"
     ],
